@@ -19,7 +19,7 @@ public class ticketTools {
         return ticketService.ticketCreate(ticket);
     }
 
-    @Tool(description = "this help to the ticket in the db")
+    @Tool(description = "this help to get the ticket in the db")
     public Ticket getTicketByUSerName(@ToolParam(description = "username of the ticket owner") String username) {
         return ticketService.getTicketByUsername(username);
     }
