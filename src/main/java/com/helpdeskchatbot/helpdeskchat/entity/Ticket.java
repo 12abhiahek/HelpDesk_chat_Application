@@ -1,10 +1,8 @@
 package com.helpdeskchatbot.helpdeskchat.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -14,7 +12,7 @@ import java.time.LocalTime;
 
 @Entity
 @Getter
-@Service
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -23,6 +21,7 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long ticketId;
 
     @NotNull(message = "Title cannot be blank")
@@ -48,13 +47,17 @@ public class Ticket {
     private String username;
 
     @Column(nullable = false, updatable = false)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate createdDate;
 
     @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime updatedDateTime;
 
     private LocalTime endTime;
 
+    @Column(unique = true)
+    private String email;
     /**
      * Sets timestamps before persisting the entity.
      */
@@ -75,6 +78,5 @@ public class Ticket {
     void preUpdate() {
         this.updatedDateTime = LocalDateTime.now();
     }
-
 
 }

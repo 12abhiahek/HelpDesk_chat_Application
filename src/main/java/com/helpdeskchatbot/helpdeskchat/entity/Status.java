@@ -2,8 +2,9 @@ package com.helpdeskchatbot.helpdeskchat.entity;
 
 public enum Status {
 
-    Open,
-    Closed,
-    InProgress,
-    Resolved
+    OPEN,
+    CLOSED,
+    IN_PROGRESS,
+    RESOLVED,
+    REOPENED
 }

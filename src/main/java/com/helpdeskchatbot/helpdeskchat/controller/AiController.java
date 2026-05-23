@@ -2,10 +2,9 @@ package com.helpdeskchatbot.helpdeskchat.controller;
 
 import com.helpdeskchatbot.helpdeskchat.service.AiService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/v1/ai")
@@ -18,9 +17,14 @@ public class AiController {
     }
 
     @PostMapping("/query")
-    public ResponseEntity<String> sendMessage(@RequestBody String userMessage){
-        String response = aiService.getAiResponse(userMessage);
+    public ResponseEntity<String> sendMessage(@RequestBody String userMessage,@RequestHeader("ConversationId") String conversationId){
+        String response = aiService.getAiResponse(userMessage,conversationId);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/stream")
+    public Flux<String> streamResponse(@RequestBody String userMessage , @RequestHeader("conversationId") String conversationId){
+        return this.aiService.streamAiResponse(userMessage, conversationId);
     }
 
 }
