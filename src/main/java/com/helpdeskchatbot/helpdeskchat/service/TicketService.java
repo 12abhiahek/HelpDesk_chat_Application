@@ -44,7 +44,8 @@ public Ticket ticketCreate(Ticket ticket) {
                 String message = String.format("Hello %s,\n\nYour ticket (id: %d) was created successfully.\nTitle: %s\nDescription: %s\n\nWe will contact you when there's an update.\n\nRegards,\nSupport Team",
                         savedTicket.getUsername(), savedTicket.getTicketId(), savedTicket.getTitle(), savedTicket.getDescription());
 
-                emailTools.sendEmailToSupportTeam(savedTicket.getEmail(), subject, message);
+                // pass the created ticket id so the email log can reference the ticket
+                emailTools.sendEmailToSupportTeam(savedTicket.getEmail(), subject, message, savedTicket.getTicketId());
                 log.debug("Sent ticket creation email to {}", savedTicket.getEmail());
             } catch (Exception ex) {
                 // Log the email failure; do not roll back ticket creation because of email problems
